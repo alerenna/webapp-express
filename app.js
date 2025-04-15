@@ -13,6 +13,8 @@ app.get('/', (req, res) => {
     res.send('MOvie API server!')
 })
 
+
+//Index
 app.get('/api/v1/movies', (req, res) => {
 
     const sql = 'SELECT * FROM movies'
@@ -22,6 +24,23 @@ app.get('/api/v1/movies', (req, res) => {
 
         console.log(results);
         res.json(results)
+    })
+})
+
+//Show
+app.get('/api/v1/movies/:id', (req, res) => {
+
+    const id = Number(req.params.id)
+
+    const sql = 'SELECT * FROM movies WHERE id = ?'
+
+    connection.query(sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Query Failed' })
+        if (results === 0) return res.status(404).json({ error: 'Movie not found' })
+
+        const movie = results[0]
+
+        res.json(movie)
     })
 })
 
