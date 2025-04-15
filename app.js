@@ -32,15 +32,28 @@ app.get('/api/v1/movies/:id', (req, res) => {
 
     const id = Number(req.params.id)
 
-    const sql = 'SELECT * FROM movies WHERE id = ?'
+    const sqlMovies = 'SELECT * FROM movies WHERE id = ?'
+    const sqlReviews = `
+    SELECT reviews.name, reviews.text
+    FROM reviews
+    JOIN movies ON reviews.movie_id = movies.id`
 
-    connection.query(sql, [id], (err, results) => {
+    connection.query(sqlMovies, [id], (err, movieResults) => {
         if (err) return res.status(500).json({ error: 'Query Failed' })
-        if (results === 0) return res.status(404).json({ error: 'Movie not found' })
+        if (movieResults === 0) return res.status(404).json({ error: 'Movie not found' })
 
-        const movie = results[0]
+        const movie = movieResults[0]
 
-        res.json(movie)
+        connection.query(sqlReviews, [id], (err, reviewResults) => {
+            if (err) return res.status(500).json({ error: 'Query Failed' })
+            if (reviewResults === 0) return res.status(404).json({ error: 'Movie not found' })
+
+            movie.review = reviewResults
+
+            res.json(movie)
+        })
+
+
     })
 })
 
