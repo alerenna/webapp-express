@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
 const port = 3005
+const error_404 = require('./middlewares/error_404')
+const serverError = require('./middlewares/serverError')
+//Move connection to controllers
 const connection = require('./data/db')
-
 
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
@@ -57,3 +59,7 @@ app.get('/api/v1/movies/:id', (req, res) => {
     })
 })
 
+
+// Middleware errors
+app.use(error_404)
+app.use(serverError)
