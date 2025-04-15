@@ -13,3 +13,15 @@ app.get('/', (req, res) => {
     res.send('MOvie API server!')
 })
 
+app.get('/api/v1/movies', (req, res) => {
+
+    const sql = 'SELECT * FROM movies'
+
+    connection.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: 'Query Failed' })
+
+        console.log(results);
+        res.json(results)
+    })
+})
+
