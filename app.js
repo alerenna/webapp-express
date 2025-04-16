@@ -14,6 +14,11 @@ app.get('/', (req, res) => {
     res.send('MOvie API server!')
 })
 
+//Middleware cors
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
+
 
 //Router movies
 app.use('/api/v1/movies', routerMovies)
