@@ -20,6 +20,9 @@ app.use(cors({
     origin: 'http://localhost:5173'
 }))
 
+//Middleware static public
+app.use(express.static('public'))
+
 
 //Router movies
 app.use('/api/v1/movies', routerMovies)
