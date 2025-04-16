@@ -16,9 +16,10 @@ function show(req, res) {
 
     const sqlMovies = 'SELECT * FROM movies WHERE id = ?'
     const sqlReviews = `
-    SELECT reviews.name, reviews.text
+    SELECT reviews.name, reviews.text, reviews.vote, reviews.created_at, movies.title, movies.abstract, movies.director
     FROM reviews
-    JOIN movies ON reviews.movie_id = movies.id`
+    JOIN movies ON reviews.movie_id = movies.id
+    WHERE movie_id = ?`
 
     connection.query(sqlMovies, [id], (err, movieResults) => {
         if (err) return res.status(500).json({ error: 'Query Failed' })
@@ -34,8 +35,6 @@ function show(req, res) {
 
             res.json(movie)
         })
-
-
     })
 }
 
@@ -43,4 +42,3 @@ module.exports = {
     index,
     show
 }
-
