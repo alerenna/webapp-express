@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3005
+const cors = require('cors')
 const routerMovies = require('./routers/router_movie')
 const error_404 = require('./middlewares/error_404')
 const serverError = require('./middlewares/serverError')
