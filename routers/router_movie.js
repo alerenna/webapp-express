@@ -8,4 +8,7 @@ router.get('/', moviesController.index)
 //Show
 router.get('/:id', moviesController.show)
 
+//Post
+router.post('/', moviesController.create)
+
 module.exports = router

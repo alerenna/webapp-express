@@ -38,7 +38,36 @@ function show(req, res) {
     })
 }
 
+function create(req, res) {
+    const id = Number(req.params.id)
+    const { name, text, vote, movie_id } = req.body
+
+    const created_at = new Date().toISOString().slice(0, 19).replace('T', ' ')
+    const updated_at = created_at
+
+    const sql = 'INSERT INTO reviews (name, text, vote, movie_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)'
+    const sqlValues = [name, text, vote, movie_id, created_at, updated_at]
+
+    connection.query(sql, sqlValues, (err, results) => {
+        if (err) return res.status(500).json({ error: 'Query Failed' })
+
+        const newReview = {
+            id: results.insertId,
+            name,
+            text,
+            vote,
+            created_at,
+            updated_at
+        }
+
+        res.status(201).json({ message: 'Review added succesfully', newReview })
+    })
+
+
+}
+
 module.exports = {
     index,
-    show
+    show,
+    create
 }

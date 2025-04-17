@@ -23,10 +23,11 @@ app.use(cors({
 //Middleware static public
 app.use(express.static('public'))
 
+//Middleware per parsing del body
+app.use(express.json())
 
 //Router movies
 app.use('/api/v1/movies', routerMovies)
-
 
 // Middleware errors
 app.use(error_404)
