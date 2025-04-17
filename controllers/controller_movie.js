@@ -39,8 +39,11 @@ function show(req, res) {
 }
 
 function create(req, res) {
-    const id = Number(req.params.id)
-    const { name, text, vote, movie_id } = req.body
+    console.log('Ricevutarichiesta POST con body:', req.body);
+
+
+    const movie_id = Number(req.params.id)
+    const { name, text, vote } = req.body
 
     const created_at = new Date().toISOString().slice(0, 19).replace('T', ' ')
     const updated_at = created_at
